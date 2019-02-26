@@ -289,4 +289,4 @@ export default () => `<article class="card card--blue">
     </div>
   </div>
 </form>
-</article>`
+</article>`;
