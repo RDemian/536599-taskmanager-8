@@ -27,25 +27,19 @@ const renderTasks = (count) => {
 
 tasksContainer.insertAdjacentHTML(`beforeend`, renderTasks(7));
 
-/* Клик по фильтрам */
+/* случайное целое число в диапазоне */
 const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-/* не понятно почему все функции нужно делать стрелочными? */
-/*
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-*/
 
+/* Обработчик клика по фильтрам */
 const handlerFilterClick = (el) => {
   /* клик срабатывает 2 раза по метке и по чекбоксу, отсекаем второе срабатывание */
   if (!el.target.classList.contains(`filter__label`)) {
     return;
   }
 
-  tasksContainer.innerHTML = ``;
-  tasksContainer.insertAdjacentHTML(`beforeend`, renderTasks(getRandomInt(1, 10)));
+  tasksContainer.innerHTML = renderTasks(getRandomInt(1, 10));
 };
 
 filters.addEventListener(`click`, handlerFilterClick);
