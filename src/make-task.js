@@ -1,4 +1,4 @@
-export default () => `<article class="card card--blue">
+export default (task) => `<article class="card card--${task.color}">
 <form class="card__form" method="get">
   <div class="card__inner">
     <div class="card__control">
@@ -10,7 +10,7 @@ export default () => `<article class="card card--blue">
       </button>
       <button
         type="button"
-        class="card__btn card__btn--favorites card__btn--disabled"
+        class="card__btn card__btn--favorites${task.isFavorite ? `` : ` card__btn--disabled`}"
       >
         favorites
       </button>
@@ -28,7 +28,7 @@ export default () => `<article class="card card--blue">
           class="card__text"
           placeholder="Start typing your text here..."
           name="text"
-        ></textarea>
+        >${task.title}</textarea>
       </label>
     </div>
 
@@ -66,129 +66,29 @@ export default () => `<article class="card card--blue">
 
           <fieldset class="card__repeat-days">
             <div class="card__repeat-days-inner">
-              <input
-                class="visually-hidden card__repeat-day-input"
-                type="checkbox"
-                id="repeat-mo-6"
-                name="repeat"
-                value="mo"
-              />
-              <label class="card__repeat-day" for="repeat-mo-6"
-                >mo</label
-              >
-              <input
-                class="visually-hidden card__repeat-day-input"
-                type="checkbox"
-                id="repeat-tu-6"
-                name="repeat"
-                value="tu"
-                checked
-              />
-              <label class="card__repeat-day" for="repeat-tu-6"
-                >tu</label
-              >
-              <input
-                class="visually-hidden card__repeat-day-input"
-                type="checkbox"
-                id="repeat-we-6"
-                name="repeat"
-                value="we"
-              />
-              <label class="card__repeat-day" for="repeat-we-6"
-                >we</label
-              >
-              <input
-                class="visually-hidden card__repeat-day-input"
-                type="checkbox"
-                id="repeat-th-6"
-                name="repeat"
-                value="th"
-              />
-              <label class="card__repeat-day" for="repeat-th-6"
-                >th</label
-              >
-              <input
-                class="visually-hidden card__repeat-day-input"
-                type="checkbox"
-                id="repeat-fr-6"
-                name="repeat"
-                value="fr"
-                checked
-              />
-              <label class="card__repeat-day" for="repeat-fr-6"
-                >fr</label
-              >
-              <input
-                class="visually-hidden card__repeat-day-input"
-                type="checkbox"
-                name="repeat"
-                value="sa"
-                id="repeat-sa-6"
-              />
-              <label class="card__repeat-day" for="repeat-sa-6"
-                >sa</label
-              >
-              <input
-                class="visually-hidden card__repeat-day-input"
-                type="checkbox"
-                id="repeat-su-6"
-                name="repeat"
-                value="su"
-                checked
-              />
-              <label class="card__repeat-day" for="repeat-su-6"
-                >su</label
-              >
+${
+  Object.keys(task.repeatingDays).reduce((prev, it) => {
+    return prev + `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${it}-6"
+    name="repeat" value="${it}" ${task.repeatingDays[it] ? `checked` : ``}/>
+  <label class="card__repeat-day" for="repeat-${it}-6"></label>`;
+  }, ``)
+}
             </div>
           </fieldset>
         </div>
 
         <div class="card__hashtag">
           <div class="card__hashtag-list">
-            <span class="card__hashtag-inner">
-              <input
-                type="hidden"
-                name="hashtag"
-                value="repeat"
-                class="card__hashtag-hidden-input"
-              />
-              <button type="button" class="card__hashtag-name">
-                #repeat
-              </button>
-              <button type="button" class="card__hashtag-delete">
-                delete
-              </button>
-            </span>
 
-            <span class="card__hashtag-inner">
-              <input
-                type="hidden"
-                name="hashtag"
-                value="repeat"
-                class="card__hashtag-hidden-input"
-              />
-              <button type="button" class="card__hashtag-name">
-                #cinema
-              </button>
-              <button type="button" class="card__hashtag-delete">
-                delete
-              </button>
-            </span>
-
-            <span class="card__hashtag-inner">
-              <input
-                type="hidden"
-                name="hashtag"
-                value="repeat"
-                class="card__hashtag-hidden-input"
-              />
-              <button type="button" class="card__hashtag-name">
-                #entertaiment
-              </button>
-              <button type="button" class="card__hashtag-delete">
-                delete
-              </button>
-            </span>
+${
+  [...task.tags].reduce((prev, it) => {
+    return prev + `<span class="card__hashtag-inner">
+      <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input"/>
+      <button type="button" class="card__hashtag-name">#${it}</button>
+      <button type="button" class="card__hashtag-delete">delete</button>
+    </span>`;
+  }, ``)
+}
           </div>
 
           <label>
@@ -209,7 +109,7 @@ export default () => `<article class="card card--blue">
           name="img"
         />
         <img
-          src="img/sample-img.jpg"
+          src="${task.picture}"
           alt="task picture"
           class="card__img"
         />

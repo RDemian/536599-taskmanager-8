@@ -2,6 +2,7 @@
 
 import makeFilter from './make-filter.js';
 import makeTask from './make-task.js';
+import getTask from './get-task.js';
 
 /* Создаем фильтры */
 const filters = document.querySelector(`.main__filter`);
@@ -17,15 +18,28 @@ filters.insertAdjacentHTML(`beforeend`, makeFilter(`Archive`, 11));
 /* Создаем таски */
 const tasksContainer = document.querySelector(`.board__tasks`);
 
-const renderTasks = (count) => {
-  let tasks = ``;
-  for (let i = 1; i <= count; i += 1) {
-    tasks = tasks + ` ` + makeTask();
+/* Массив для тасков */
+const taskList = [];
+
+const fillTaskList = (count) => {
+  for (let i = 0; i < count; i += 1) {
+    taskList.push(makeTask(getTask()));
   }
-  return tasks;
+};
+/* Заполняем массив тасков */
+fillTaskList(7);
+
+const renderTasks = (count = taskList.length) => {
+  tasksContainer.innerHTML = ``;
+  for (let el of taskList) {
+    if (taskList.indexOf(el) > count) {
+      break;
+    }
+    tasksContainer.insertAdjacentHTML(`beforeend`, el);
+  }
 };
 
-tasksContainer.insertAdjacentHTML(`beforeend`, renderTasks(7));
+renderTasks();
 
 /* случайное целое число в диапазоне */
 const getRandomInt = (min, max) => {
@@ -39,7 +53,7 @@ const handlerFilterClick = (el) => {
     return;
   }
 
-  tasksContainer.innerHTML = renderTasks(getRandomInt(1, 10));
+  renderTasks(getRandomInt(1, 7));
 };
 
 filters.addEventListener(`click`, handlerFilterClick);
