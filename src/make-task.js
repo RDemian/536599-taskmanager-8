@@ -1,4 +1,9 @@
-export default (task) => `<article class="card card--${task.color}">
+export default (task) => `<article class="card card--${task.color}
+${task.isDone ? `` : (+task.dueDate < Date.now() ? `card--deadline` : ``)} 
+${
+  Object.values(task.repeatingDays).indexOf(true) > -1 ? `card--repeat` : ``
+}
+">
 <form class="card__form" method="get">
   <div class="card__inner">
     <div class="card__control">
@@ -44,18 +49,18 @@ export default (task) => `<article class="card card--${task.color}">
               <input
                 class="card__date"
                 type="text"
-                placeholder="23 September"
+                placeholder="${task.dueDate.toLocaleString(`ru`, {month: `long`, day: `numeric`})}"
                 name="date"
-                value="23 September"
+                value="${task.dueDate.toLocaleString(`ru`, {month: `long`, day: `numeric`})}"
               />
             </label>
             <label class="card__input-deadline-wrap">
               <input
                 class="card__time"
                 type="text"
-                placeholder="11:15 PM"
+                placeholder="${task.dueDate.toLocaleString(`ru`, {hour: `numeric`, minute: `numeric`})}"
                 name="time"
-                value="11:15 PM"
+                value="${task.dueDate.toLocaleString(`ru`, {hour: `numeric`, minute: `numeric`})}"
               />
             </label>
           </fieldset>

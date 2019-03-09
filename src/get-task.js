@@ -1,41 +1,29 @@
 /* структура данных таск */
 const getTask = () => ({
-  get title() {
-    const titleVariant = [
-      `Изучить теорию`,
-      `Попрактиковаться на демонстрациях`,
-      `Сделать домашку`,
-      `Пройти интенсив на соточку`];
-    return titleVariant[Math.floor(Math.random() * titleVariant.length)];
-  },
-  title2: [// если так описать title - случайное значение выбирается только при обновлении страницы?
+  title: [
     `Изучить теорию`,
     `Сделать домашку`,
     `Пройти интенсив на соточку`][Math.floor(Math.random() * 3)],
-  dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
-  tags: new Set([
+
+  dueDate: new Date(Date.now() + 1 + [-1, 1][Math.floor(Math.random() * 2)] * Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000),
+
+  tags: [
     `homework`,
     `theory`,
     `practice`,
-  ]),
-  get picture() {
-    return `//picsum.photos/100/100?r=${Math.random()}`;
-  },
-  get color() {
-    const colorSet = [`black`, `yellow`, `blue`, `green`, `pink`];
-    return colorSet[Math.floor(Math.random() * colorSet.length)];
-  },
-  repeatingDays: {
-    'mo': true,
-    'tu': false,
-    'we': true,
-    'th': false,
-    'fr': false,
-    'sa': true,
-    'su': false,
-  },
-  isFavorite: false,
-  isDone: false,
+    `test`,
+    `selfproject`,
+  ].filter(() => [true, false][Math.floor(Math.random() * 2)]).slice(0, 3),
+
+  picture: `//picsum.photos/100/100?r=${Math.random()}`,
+
+  color: [`black`, `yellow`, `blue`, `green`, `pink`][Math.floor(Math.random() * 5)],
+
+  repeatingDays: [{'mo': true, 'tu': false, 'we': true, 'th': false, 'fr': false, 'sa': true, 'su': false}, {'mo': false, 'tu': false, 'we': false, 'th': false, 'fr': false, 'sa': false, 'su': false}][Math.floor(Math.random() * 2)],
+
+  isFavorite: [true, false][Math.floor(Math.random() * 2)],
+
+  isDone: [true, false][Math.floor(Math.random() * 2)],
 });
 
 export default getTask;
