@@ -1,8 +1,6 @@
 export default (task) => `<article class="card card--${task.color}
-${task.isDone ? `` : (+task.dueDate < Date.now() ? `card--deadline` : ``)} 
-${
-  Object.values(task.repeatingDays).indexOf(true) > -1 ? `card--repeat` : ``
-}
+${task.isDone && +task.dueDate < Date.now() ? `card--deadline` : ``} 
+${Object.values(task.repeatingDays).indexOf(true) > -1 ? `card--repeat` : ``}
 ">
 <form class="card__form" method="get">
   <div class="card__inner">
